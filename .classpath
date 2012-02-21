@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/junit-4.7.jar"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/jedis-2.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/anna/EclipseProjects/workspace/MerkOrCore/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

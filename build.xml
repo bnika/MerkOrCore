@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MerkOrCore" default="release" basedir=".">
+
+	
+	
+	<!-- SET COMPILER AND JAVA SOURCE COMPATIBILTIY -->
+	<property name="source" value="1.6" />
+	<property name="compiler" value="javac1.6" />
+	
+	<!-- SET SOURCE, BUILD AND RELEASE DIR -->
+	<property name="source.dir" value="src" />
+	<property name="testsource.dir" value="test" />
+	<property name="build.dir" value="bin" />
+	<property name="release.dir" value="release" />
+	<property name="lib.dir" value="lib" />
+	<property name="report.dir" value="generated-reports" />
+	<property name="etc.dir" value="etc/META-INF"/>
+	
+	<!-- SET APPLICATION NAME -->
+	<property name="appname" value="MerkOrCore" />
+	<property name="mainclass" value="is.merkor.core.cli.Main" />
+	
+	<!-- SET CLASSPATH -->
+	<path id="project.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	
+	<!-- METAFILES -->
+	<patternset id="meta.files">
+		<include name="etc/**/*.xml" />
+	</patternset>
+	
+	<!-- PREPARING DESTINATION DIRECTORIES -->
+	<target name="prepare">
+		
+		<echo message="creating build dir: ${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		
+		<echo message="creating release dir: ${release.dir}" />
+		<mkdir dir="${release.dir}" />
+		
+	</target>
+	
+	<!-- CLEANING DIRECTORIES -->
+	<target name="clean">
+		
+		<echo message="deleting build dir: ${build.dir}" />
+		<delete dir="${build.dir}" />
+		
+		<echo message="deleting release dir: ${release.dir}" />
+		<delete dir="${release.dir}" />
+		
+	</target>
+	
+	<!-- HIBERNATE: COPY METADATA AND CONFIG FROM ETC -->
+	<target name="copymetafiles">
+		<!-- copy metadata to build -->
+		<copy todir="${build.dir}">
+			<fileset dir="${source.dir}">
+				<patternset refid="meta.files"/>
+			</fileset>
+		</copy>
+		<!-- Copy configuration files from etc/ -->
+		<copy todir="${build.dir}">
+			<fileset dir="${etc.dir}">
+				<patternset refid="meta.files"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<!-- COMPILE ALL SOURCES (INCL. TESTS) -->
+	<target name="compile" depends="prepare">
+		
+		<echo message="compile" />
+		<antcall target="-compileSrc" />
+		
+		<available file="${testsource.dir}" type="dir" property="testsource.dir.present" />
+		<antcall target="-compileTests" />
+		
+	</target>
+	
+	<!-- COMPILE SRC -->
+	<target name="-compileSrc">
+		
+		<echo message="compiling ${source.dir}" />
+		
+		<javac srcdir="${source.dir}" destdir="${build.dir}" source="${source}"
+			compiler="${compiler}" debug="true" encoding="ISO-8859-1">
+			<classpath>
+				<path refid="project.classpath" />
+			</classpath>
+		</javac>
+		
+	</target>
+	
+	<!-- COMPILE TESTS -->
+	<target name="-compileTests" if="testsource.dir.present">
+		
+		<echo message="compiling ${testsource.dir}" />
+		<javac srcdir="${testsource.dir}" destdir="${build.dir}" source="${source}"
+			compiler="${compiler}" debug="true" encoding="ISO-8859-1">
+			<classpath>
+				<path refid="project.classpath" />
+			</classpath>
+		</javac>
+		
+	</target>
+	
+	<!-- EXECUTE TESTS -->
+	<target name="executeTests" depends="compile" if="testsource.dir.present">
+		
+		<echo message="preparing junit-reports dir: ${report.dir}/junit" />
+		<delete dir="${report.dir}/junit" />
+		<mkdir dir="${report.dir}/junit" />
+		
+		<junit printsummary="on" fork="true" haltonfailure="false"
+			failureproperty="tests.failed" filtertrace="yes" showoutput="true">
+			
+			<classpath>
+				<pathelement location="${build.dir}" />
+				<path refid="project.classpath" />
+			</classpath>
+			
+			<formatter type="brief" usefile="true" />
+			<formatter type="xml" usefile="true" />
+			
+			<batchtest todir="${report.dir}/junit">
+				<fileset dir="${testsource.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+		
+		<junitreport todir="${report.dir}/junit">
+			<fileset dir="${report.dir}/junit">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${report.dir}/junit" />
+		</junitreport>
+		
+		<!--<fail if="tests.failed">
+		</fail> -->
+	
+	</target>
+	
+	<!-- CREATE NEW RELEASE -->
+		<target name="release" depends="executeTests, compile, copymetafiles, prepare">
+			<!-- create a property containing all .jar files, prefix lib/ and seperated with a space -->
+			<pathconvert property="libs.project" pathsep=" ">
+				<mapper>
+					<chainedmapper>
+						<!-- remove absolute path -->
+						<flattenmapper />
+						
+						<!-- add lib/ prefix -->
+						<globmapper from="*" to="lib/*" />
+					</chainedmapper>
+				</mapper>
+				
+				<path>
+					<fileset dir="${lib.dir}">
+						<include name="**/*.jar" />
+					</fileset>
+				</path>
+			</pathconvert>
+			<!-- create jar file -->
+			<jar destfile="${release.dir}/${appname}.jar">
+				
+				<fileset dir="${build.dir}" excludes="**/Test*.class, **/*Test.class" />
+				
+				<manifest>
+					<attribute name="Built-By" value="${user.name}" />
+					<attribute name="Main-Class" value="${mainclass}" />
+					<attribute name="Class-Path" value="${libs.project}" />
+				</manifest>
+			</jar>
+			
+			<!-- define MANIFEST.MF seems to be needed both internal in the .jar and external in META-INF/MANIFEST.MF!! -->
+			<manifest file="MANIFEST.MF">
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="${mainclass}" />
+				<attribute name="Class-Path" value="${libs.project}" />
+			</manifest>
+			
+			<!-- copy lib dir to release lib dir -->
+			<copy todir="${release.dir}/${lib.dir}" filtering="off">
+				<flattenmapper />
+				<fileset dir="${lib.dir}" includes="**/*.jar" />
+			</copy>
+			
+			<!-- copy properties and xml-files to release dir -->
+			<copy todir="${release.dir}">
+				<fileset dir="${basedir}" includes="*.properties, *.cfg.xml" excludes="build.xml" />
+			</copy>
+			
+			<echo message="release ${appname}.jar created" />
+		</target>
+	
+	<!-- EXECUTE -->
+	<target name="execute" depends="executeTests, compile, copymetafiles, prepare">
+		<java fork="true" classname="${mainclass}" classpathref="project.classpath" classpath="${build.dir}">
+		</java>
+	</target>
+
+</project>

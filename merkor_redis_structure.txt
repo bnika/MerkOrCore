@@ -1,0 +1,78 @@
+********************************************************************
+*
+*	Overview of the Redis MerkOr key-value structure
+*
+*	Date: 23.01.2012
+*
+********************************************************************
+
+1)	Information on lemmata / lexical items
+
+====== LEMMATA: SET =========
+key: merkor_is_lemma_<lemma>
+set members: merkor_is_id_<lexical_item_id>
+
+This is an entry structure to use when looking for information about a word: <lemma>
+should match the search word, the set members are referred to by relations and cluster 
+structures.
+
+===== LEXICAL_ITEMS: HASH ========
+key: merkor_is_id_<lexical_item_id>
+fields: lemma, wordclass
+
+Information about lexical items (lemma string and wordclass (noun, adjective, verb)).
+
+
+2)	Information on lexical relations
+
+
+===== RELATIONS: HASH =========
+key: merkor_is_rel_<relation_id>
+fields: from_item (merkor_is_id_<lexical_item_id>), 
+	to_item (merkor_is_id_<lexcial_item_id>), 
+	relation (name of relation),
+	score (confidence score)
+
+Information on single relation: lexical items, relation type and score. 'from_item' is 
+the left item of the relation, 'to_item' the right element. 
+The higher the 'score', the better / more reliable the relation.
+
+===== RELATIONS BY LEXICAL ITEM: SORTED SET ========
+key: sorted_rel_set_merkor_is_id_<lexical_item_id>
+members: merkor_is_rel_<relation_id>
+score: confidence score of the relation
+
+Direct access to the relations containing the lexical item referred to by the key.
+
+====== TOP RELATIONS BY TYPE: SORTED SET ==========
+key: merkor_is_top_by_reltype
+members: merkor_is_rel_<relation_id>
+score: confidence score of the relation
+
+use 'zrevrange' to get top relations
+total nr of types: 83
+max nr of set members: 500
+
+====== RELATION TYPES: STRINGS (KEY-VALUE) ===========
+key: merkor_is_reltype_<reltype description>
+value: id of the relation type
+
+BUG: the relations coord_noun (id=7) and coord_adj (id=8) both have the description "og",
+and the value of the key "og" is thus "78". There is a workaround in the MerkOrCore API, but
+this will be corrected in the Redis data.
+
+3)	Information on clusters
+
+====== CLUSTERS: SORTED SET ==============
+key: merkor_is_cluster_<clustername_clusterid>
+members: merkor_is_id_<lexcial_item_id>
+score: cosine similarity (= closeness to cluster center)
+
+The higher the score, the better member of the cluster the lexcial item is.
+
+
+===== CLUSTERS OF LEXICAL ITEMS: SET =========
+key: in_cluster_merkor_is_id_<lexcial_item_id>
+members: merkor_is_cluster_<clustername_clusterid>
+
+
