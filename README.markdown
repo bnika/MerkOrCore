@@ -1,7 +1,9 @@
 # MerkOrCore
 ### Version 0.8
 Copyright 2012 Anna Björk Nikulásdóttir
+
 Website: http://merkor.skerpa.com
+
 Contact: anna.b.nik@gmx.de
 
 MerkOrCore is an API for the access of the MerkOr, a semantic database for Icelandic.
@@ -24,7 +26,7 @@ MerkOr is an automatically constructed semantic database for Icelandic. The basi
 * relation. A relation connects two lexical items with a relation type (see next). Each relation has a confidence score associated to it, the higher this score, the better / more representative the relation.  
  * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]  
 * relation type. Specifies the type of relationship between two lexical items  
- * [id=7, name=og, description=og]  
+ * [id=7, name=coord_noun, description=og]  
 * cluster. A cluster is an ordered list of lexical items belonging to the same semantic domains. Each item in a cluster has a score   
 associated to it, indicating how well the item fits the corresponding cluster. Less than 10,000 items belong to a cluster.
 
