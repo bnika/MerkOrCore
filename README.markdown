@@ -18,24 +18,26 @@ The MerkOr project was funded by a grant from the Icelandic Research Fund (RANN�
 
 ## About MerkOr
 MerkOr is an automatically constructed semantic database for Icelandic. The basic elements of the database are:
-    * lexical item. Contains an id, a 'lemma' (=word string), sense number and a wordclass.
-        * [id=109799, lemma=skúr_1, wordclass=noun]
-    * relation. A relation connects two lexical items with a relation type (see next). Each relation has a confidence score associated to it, the higher this score, the better / more representative the relation.
-        * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]
-    * relation type. Specifies the type of relationship between two lexical items
-        * [id=7, name=og, description=og]
-    * cluster. A cluster is an ordered list of lexical items belonging to the same semantic domains. Each item in a cluster has a score 
+  
+* lexical item. Contains an id, a 'lemma' (=word string), sense number and a wordclass.  
+ * [id=109799, lemma=skúr_1, wordclass=noun]  
+* relation. A relation connects two lexical items with a relation type (see next). Each relation has a confidence score associated to it, the higher this score, the better / more representative the relation.  
+ * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]  
+* relation type. Specifies the type of relationship between two lexical items  
+ * [id=7, name=og, description=og]  
+* cluster. A cluster is an ordered list of lexical items belonging to the same semantic domains. Each item in a cluster has a score   
 associated to it, indicating how well the item fits the corresponding cluster. Less than 10,000 items belong to a cluster.
 
-The MerkOrCore API and command line interface can be used to query this data:
-    * Does a word belong to more than one lexical item?
-    * Which relations exist for a certain word?
-    * What are the relations with the highest confidence score for a certain word?
-    * What are the relations with the highest confidence score for a certain relation type?
-    * To which cluster(s) does a word belong to?
-    * Are there clusters representing some certain semantic domain (like ÍÞRÓTTIR*)?
-    * Which lexical items are connected to a certain domain?
-    * etc. See instructions below!
+The MerkOrCore API and command line interface can be used to query this data
+  
+* Does a word belong to more than one lexical item?
+* Which relations exist for a certain word?
+* What are the relations with the highest confidence score for a certain word?
+* What are the relations with the highest confidence score for a certain relation type?
+* To which cluster(s) does a word belong to?
+* Are there clusters representing some certain semantic domain (like ÍÞRÓTTIR*)?
+* Which lexical items are connected to a certain domain?
+* etc. See instructions below!
 
 ## Getting started
 *Note that MerkOrCore is developed and tested under Mac OS X only, please report any problems with other platforms!*
