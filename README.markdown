@@ -58,6 +58,9 @@ After you have installed Redis, unpacked and loaded the MerkOr data, you can try
 
 This assures you that the MerkOr data is loaded but you don't have to study redis-cli to use the MerkOrCore API. For those interested in inspecting the data directly, for example with redis-cli, the structure of the Redis data is shown in the file `merkor_redis_structure.txt`.
 
+### MerkOrCore API
+See the java-doc in folder doc in this project.
+
 ### MerkOrCore command line interface
 Before running MerkOrCore, either as a command line interface or as an API, **make sure the Redis server is running!**.
 
