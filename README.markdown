@@ -62,6 +62,9 @@ This assures you that the MerkOr data is loaded but you don't have to study redi
 See the java-doc in folder doc in this project.
 
 ### MerkOrCore command line interface
+In the initial project state a file MerkOrCore.jar is included in the release folder. I recommend, however, to
+rebuild the project by typing `ant` in the folder you saved the project to (preferably MerkOrCore).
+
 Before running MerkOrCore, either as a command line interface or as an API, **make sure the Redis server is running!**.
 
 In the directory of MerkOrCore.jar type:
