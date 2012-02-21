@@ -1,10 +1,12 @@
 # MerkOrCore
 ### Version 0.8
 Copyright 2012 Anna Björk Nikulásdóttir
+
 Website: http://merkor.skerpa.com
+
 Contact: anna.b.nik@gmx.de
 
-MerkOrCore is an API for the access of the MerkOr, a semantic database for Icelandic.
+MerkOrCore is an API for the access of MerkOr, a semantic database for Icelandic.
 
 ## License
 MerkOrCore is free software: you can redistribute it and/or modify it under the terms of the
@@ -18,31 +20,33 @@ The MerkOr project was funded by a grant from the Icelandic Research Fund (RANN�
 
 ## About MerkOr
 MerkOr is an automatically constructed semantic database for Icelandic. The basic elements of the database are:
-    * lexical item. Contains an id, a 'lemma' (=word string), sense number and a wordclass.
-        * [id=109799, lemma=skúr_1, wordclass=noun]
-    * relation. A relation connects two lexical items with a relation type (see next). Each relation has a confidence score associated to it, the higher this score, the better / more representative the relation.
-        * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]
-    * relation type. Specifies the type of relationship between two lexical items
-        * [id=7, name=og, description=og]
-    * cluster. A cluster is an ordered list of lexical items belonging to the same semantic domains. Each item in a cluster has a score 
+  
+* lexical item. Contains an id, a 'lemma' (=word string), sense number and a wordclass.  
+ * [id=109799, lemma=skúr_1, wordclass=noun]  
+* relation. A relation connects two lexical items with a relation type (see next). Each relation has a confidence score associated to it, the higher this score, the better / more representative the relation.  
+ * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]  
+* relation type. Specifies the type of relationship between two lexical items  
+ * [id=7, name=coord_noun, description=og]  
+* cluster. A cluster is an ordered list of lexical items belonging to the same semantic domain. Each item in a cluster has a score   
 associated to it, indicating how well the item fits the corresponding cluster. Less than 10,000 items belong to a cluster.
 
-The MerkOrCore API and command line interface can be used to query this data:
-    * Does a word belong to more than one lexical item?
-    * Which relations exist for a certain word?
-    * What are the relations with the highest confidence score for a certain word?
-    * What are the relations with the highest confidence score for a certain relation type?
-    * To which cluster(s) does a word belong to?
-    * Are there clusters representing some certain semantic domain (like ÍÞRÓTTIR*)?
-    * Which lexical items are connected to a certain domain?
-    * etc. See instructions below!
+The MerkOrCore API and command line interface can be used to query this data
+  
+* Does a word belong to more than one lexical item?
+* Which relations exist for a certain word?
+* What are the relations with the highest confidence score for a certain word?
+* What are the relations with the highest confidence score for a certain relation type?
+* To which cluster(s) does a word belong to?
+* Are there clusters representing some certain semantic domain (like ÍÞRÓTTIR*)?
+* Which lexical items are connected to a certain domain?
+* etc. See instructions below!
 
 ## Getting started
 *Note that MerkOrCore is developed and tested under Mac OS X only, please report any problems with other platforms!*
 ### Redis
 The MerkOr data is stored in Redis format. Redis is available at http://redis.io (installation instructions under http://redis.io/download).
-The Redis data is included in this package as `dump.rdb`.
-After you have installed Redis and loaded the MerkOr data, you can try it out directly in Redis command line interface, (in the Redis directory start `src/redis-cli`), for example:
+The Redis data is included in this package as `dump.rdb.bz2`.
+After you have installed Redis, unpacked and loaded the MerkOr data, you can try it out directly in Redis command line interface, (in the Redis directory start `src/redis-cli`), for example:
 
     redis 127.0.0.1:6379> smembers merkor_is_lemma_lampi
     1) "merkor_is_id_45966"
@@ -54,7 +58,13 @@ After you have installed Redis and loaded the MerkOr data, you can try it out di
 
 This assures you that the MerkOr data is loaded but you don't have to study redis-cli to use the MerkOrCore API. For those interested in inspecting the data directly, for example with redis-cli, the structure of the Redis data is shown in the file `merkor_redis_structure.txt`.
 
+### MerkOrCore API
+See the java-doc in folder doc in this project.
+
 ### MerkOrCore command line interface
+In the initial project state a file MerkOrCore.jar is included in the release folder. I recommend, however, to
+rebuild the project by typing `ant` in the folder you saved the project to (preferably MerkOrCore).
+
 Before running MerkOrCore, either as a command line interface or as an API, **make sure the Redis server is running!**.
 
 In the directory of MerkOrCore.jar type:
@@ -114,7 +124,8 @@ Get the n relations of a certain type with the highest confidence score:
 If you don't specify the number of relation maximum 100 relations will be displayed (some relation types do not have that many relations, in these cases all relations are shown).
 
 #### Clusters and domains
-A cluster is a automatically constructed set of semantically related words. Most of them have been assigned a domain name, like 'SPORTS' or 'FINANCE'. These names are not unique for a cluster (they have a unique id), so some domain names may have more than one cluster associated to it.
+A cluster is a automatically constructed set of semantically related words. Most of them have been assigned a domain name, like 'ÍÞRÓTTIR' (='SPORTS') or 
+'FJÁRMÁL' (='FINANCE'). These names are not unique for a cluster (they have a unique id), so some domain names may have more than one cluster associated to it.
 
 Get all cluster names:
 
@@ -149,4 +160,9 @@ Get all items belonging to a certain cluster:
     java -jar MerkOrCore.jar -items_for_cluster <cluster id>
 
 For this command you need to know the id of the cluster you want to inspect. Call -clusters_matching <regex> to get ids of clusters matching the domain you're interested in. You can also use any integer between 1 and 305 if you are not interested in a particular cluster.
+
 The output shows the items, cluster name and id, and values. Value is between 0.25 and 1.0, the higher the better the item fits into the cluster.
+
+##Contributing 
+
+Fork, update, send a pull request

@@ -24,11 +24,6 @@
 		<fileset dir="${lib.dir}" includes="**/*.jar" />
 	</path>
 	
-	<!-- METAFILES -->
-	<!--<patternset id="meta.files">
-		<include name="etc/**/*.xml" />
-	</patternset>-->
-	
 	<!-- PREPARING DESTINATION DIRECTORIES -->
 	<target name="prepare">
 		
