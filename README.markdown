@@ -27,7 +27,7 @@ MerkOr is an automatically constructed semantic database for Icelandic. The basi
  * [id=893, from_item_id=52069, relation_id=7, to_item_id=34948, confidence_score=366.806]  
 * relation type. Specifies the type of relationship between two lexical items  
  * [id=7, name=coord_noun, description=og]  
-* cluster. A cluster is an ordered list of lexical items belonging to the same semantic domains. Each item in a cluster has a score   
+* cluster. A cluster is an ordered list of lexical items belonging to the same semantic domain. Each item in a cluster has a score   
 associated to it, indicating how well the item fits the corresponding cluster. Less than 10,000 items belong to a cluster.
 
 The MerkOrCore API and command line interface can be used to query this data
@@ -118,7 +118,8 @@ Get the n relations of a certain type with the highest confidence score:
 If you don't specify the number of relation maximum 100 relations will be displayed (some relation types do not have that many relations, in these cases all relations are shown).
 
 #### Clusters and domains
-A cluster is a automatically constructed set of semantically related words. Most of them have been assigned a domain name, like 'SPORTS' or 'FINANCE'. These names are not unique for a cluster (they have a unique id), so some domain names may have more than one cluster associated to it.
+A cluster is a automatically constructed set of semantically related words. Most of them have been assigned a domain name, like 'ÍÞRÓTTIR' (='SPORTS') or 
+'FJÁRMÁL' (='FINANCE'). These names are not unique for a cluster (they have a unique id), so some domain names may have more than one cluster associated to it.
 
 Get all cluster names:
 
