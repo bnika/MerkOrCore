@@ -14,7 +14,6 @@
 	<property name="release.dir" value="release" />
 	<property name="lib.dir" value="lib" />
 	<property name="report.dir" value="generated-reports" />
-	<!--<property name="etc.dir" value="etc/META-INF"/>-->
 	
 	<!-- SET APPLICATION NAME -->
 	<property name="appname" value="MerkOrCore" />
