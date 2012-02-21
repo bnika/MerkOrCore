@@ -45,8 +45,8 @@ The MerkOrCore API and command line interface can be used to query this data
 *Note that MerkOrCore is developed and tested under Mac OS X only, please report any problems with other platforms!*
 ### Redis
 The MerkOr data is stored in Redis format. Redis is available at http://redis.io (installation instructions under http://redis.io/download).
-The Redis data is included in this package as `dump.rdb`.
-After you have installed Redis and loaded the MerkOr data, you can try it out directly in Redis command line interface, (in the Redis directory start `src/redis-cli`), for example:
+The Redis data is included in this package as `dump.rdb.bz2`.
+After you have installed Redis, unpacked and loaded the MerkOr data, you can try it out directly in Redis command line interface, (in the Redis directory start `src/redis-cli`), for example:
 
     redis 127.0.0.1:6379> smembers merkor_is_lemma_lampi
     1) "merkor_is_id_45966"
@@ -154,4 +154,9 @@ Get all items belonging to a certain cluster:
     java -jar MerkOrCore.jar -items_for_cluster <cluster id>
 
 For this command you need to know the id of the cluster you want to inspect. Call -clusters_matching <regex> to get ids of clusters matching the domain you're interested in. You can also use any integer between 1 and 305 if you are not interested in a particular cluster.
+
 The output shows the items, cluster name and id, and values. Value is between 0.25 and 1.0, the higher the better the item fits into the cluster.
+
+##Contributing 
+
+Fork, update, send a pull request
