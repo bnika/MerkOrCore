@@ -6,7 +6,7 @@ Website: http://merkor.skerpa.com
 
 Contact: anna.b.nik@gmx.de
 
-MerkOrCore is an API for the access of the MerkOr, a semantic database for Icelandic.
+MerkOrCore is an API for the access of MerkOr, a semantic database for Icelandic.
 
 ## License
 MerkOrCore is free software: you can redistribute it and/or modify it under the terms of the
