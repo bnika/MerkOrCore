@@ -14,7 +14,7 @@
 	<property name="release.dir" value="release" />
 	<property name="lib.dir" value="lib" />
 	<property name="report.dir" value="generated-reports" />
-	<property name="etc.dir" value="etc/META-INF"/>
+	<!--<property name="etc.dir" value="etc/META-INF"/>-->
 	
 	<!-- SET APPLICATION NAME -->
 	<property name="appname" value="MerkOrCore" />
@@ -26,9 +26,9 @@
 	</path>
 	
 	<!-- METAFILES -->
-	<patternset id="meta.files">
+	<!--<patternset id="meta.files">
 		<include name="etc/**/*.xml" />
-	</patternset>
+	</patternset>-->
 	
 	<!-- PREPARING DESTINATION DIRECTORIES -->
 	<target name="prepare">
@@ -50,22 +50,6 @@
 		<echo message="deleting release dir: ${release.dir}" />
 		<delete dir="${release.dir}" />
 		
-	</target>
-	
-	<!-- HIBERNATE: COPY METADATA AND CONFIG FROM ETC -->
-	<target name="copymetafiles">
-		<!-- copy metadata to build -->
-		<copy todir="${build.dir}">
-			<fileset dir="${source.dir}">
-				<patternset refid="meta.files"/>
-			</fileset>
-		</copy>
-		<!-- Copy configuration files from etc/ -->
-		<copy todir="${build.dir}">
-			<fileset dir="${etc.dir}">
-				<patternset refid="meta.files"/>
-			</fileset>
-		</copy>
 	</target>
 	
 	<!-- COMPILE ALL SOURCES (INCL. TESTS) -->
@@ -144,7 +128,7 @@
 	</target>
 	
 	<!-- CREATE NEW RELEASE -->
-		<target name="release" depends="executeTests, compile, copymetafiles, prepare">
+		<target name="release" depends="executeTests, compile, prepare">
 			<!-- create a property containing all .jar files, prefix lib/ and seperated with a space -->
 			<pathconvert property="libs.project" pathsep=" ">
 				<mapper>
@@ -197,7 +181,7 @@
 		</target>
 	
 	<!-- EXECUTE -->
-	<target name="execute" depends="executeTests, compile, copymetafiles, prepare">
+	<target name="execute" depends="executeTests, compile, prepare">
 		<java fork="true" classname="${mainclass}" classpathref="project.classpath" classpath="${build.dir}">
 		</java>
 	</target>
