@@ -2,7 +2,7 @@
 ### Version 0.8
 Copyright 2012 Anna Björk Nikulásdóttir
 
-Websites: http://merkor.skerpa.com, http://www.annanik.net
+Websites: http://merkor.skerpa.com
 
 Contact: anna.b.nik@gmx.de
 
